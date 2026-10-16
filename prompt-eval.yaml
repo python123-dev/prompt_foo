@@ -1,0 +1,32 @@
+description: Compare prompt wordings
+prompts:
+  - label: terse
+    raw: "Answer in one sentence: {{question}}"
+  - label: friendly
+    raw: "You are a friendly support agent. Answer the customer's question: {{question}}"
+  - label: strict
+    raw: |
+      You are a support agent. Use only the facts below. If unsure, say "I don't know."
+      Facts: {{facts}}
+      Question: {{question}}
+
+providers:
+  - google:gemini-2.5-flash
+
+defaultTest:
+  options:
+    provider: google:gemini-2.5-flash   # judge for llm-rubric
+
+tests:
+  - vars:
+      question: "How long do I have to return a product?"
+      facts: "Returns are accepted within 30 days of delivery."
+    assert:
+      - type: icontains
+        value: "30 days"
+  - vars:
+      question: "Who is the CEO?"
+      facts: "Returns are accepted within 30 days of delivery."
+    assert:
+      - type: llm-rubric
+        value: "Says it doesn't know and does not invent a name"

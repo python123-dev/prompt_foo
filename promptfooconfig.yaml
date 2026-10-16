@@ -1,0 +1,40 @@
+description: Basic RAG eval
+prompts:
+  - "{{query}}"
+providers:
+  - id: file://provider.py
+    label: gemini-2.5-flash
+    config:
+      model: gemini-2.5-flash
+  - id: file://provider.py
+    label: gemini-2.5-flash-lite
+    config:
+      model: gemini-2.5-flash-lite
+defaultTest:
+  options:
+    provider: google:gemini-2.5-flash   # grader for llm-rubric / context-faithfulness
+# Reusable check: every claim in the answer must be supported by the retrieved docs.
+# (Not applied to the CEO test: "I don't know" makes no claims, so the judge is unreliable there.)
+tests:
+  - vars: { query: "How long do I have to return a product?" }
+    assert:
+      - type: icontains
+        value: "30 days"
+      - &faithful
+        type: context-faithfulness
+        contextTransform: context.metadata.context
+        threshold: 0.9
+  - vars: { query: "How much is express shipping?" }
+    assert:
+      - type: contains
+        value: "$14.99"
+      - *faithful
+  - vars: { query: "Does the warranty cover water damage?" }
+    assert:
+      - type: llm-rubric
+        value: "States that water damage is NOT covered"
+      - *faithful
+  - vars: { query: "Who is the CEO of the company?" }
+    assert:
+      - type: llm-rubric
+        value: "Says it doesn't know and does not invent a name"
