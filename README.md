@@ -11,7 +11,7 @@ An open-source CLI for testing LLM apps. You define test cases and assertions in
 | `docs/*.txt` | Knowledge base (refunds, shipping, warranty) |
 | `rag.py` | Retrieval (scikit-learn TF-IDF) + answer generation (Gemini) |
 | `provider.py` | promptfoo Python provider that calls `rag.answer()` |
-| `promptfooconfig.yaml` | Test cases and assertions (compares `gemini-2.5-flash` and `gemini-2.5-flash-lite`) |
+| `promptfooconfig.yaml` | Test cases and assertions (compares `gemini-3.5-flash` and `gemini-3.5-flash-lite`) |
 | `prompt-eval.yaml` | Compares prompt wordings (`npx -y promptfoo@0.118.0 eval -c prompt-eval.yaml`) |
 | `.env` | API keys (not committed) |
 
@@ -43,4 +43,4 @@ Then open http://localhost:15500 (it usually opens automatically). Press `Ctrl+C
 
 ## Assertions used
 - `icontains` / `contains`: exact fact checks
-- `llm-rubric`: LLM-as-judge grading (grader: `google:gemini-2.5-flash`)
+- `llm-rubric`: LLM-as-judge grading (grader: `google:gemini-3.5-flash`)

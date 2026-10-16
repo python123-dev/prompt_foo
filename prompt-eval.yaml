@@ -11,11 +11,11 @@ prompts:
       Question: {{question}}
 
 providers:
-  - google:gemini-2.5-flash
+  - google:gemini-3.5-flash
 
 defaultTest:
   options:
-    provider: google:gemini-2.5-flash   # judge for llm-rubric
+    provider: google:gemini-3.5-flash   # judge for llm-rubric
 
 tests:
   - vars:
